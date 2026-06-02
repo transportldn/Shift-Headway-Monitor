@@ -127,10 +127,10 @@ function setStandLabels() {
   const bottomStand = bottomDirection.stops.find(stop => stop.type === "stand");
 
   document.getElementById("top-stand-label").textContent =
-    topStand ? `${topStand.name} - buses on stand` : "Buses on stand";
+    topStand ? topStand.name : "Stand";
 
   document.getElementById("bottom-stand-label").textContent =
-    bottomStand ? `${bottomStand.name} - buses on stand` : "Buses on stand";
+    bottomStand ? bottomStand.name : "Stand";
 }
 
 function renderStands() {

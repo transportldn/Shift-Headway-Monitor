@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shift Headway Monitor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="controls">
+    <input type="file" id="csvUpload" accept=".csv">
+    <span id="status">Upload running board CSV</span>
+  </div>
+
+  <div id="monitor">
+    <div class="stand-box">
+      <strong>Buses on stand</strong>
+      <div id="top-stand-duties"></div>
+    </div>
+
+    <div class="route-layout">
+      <div id="left-duties" class="duties-column"></div>
+      <div id="left-stops" class="stops-column"></div>
+
+      <div class="road">
+        <div class="road-line"></div>
+        <div class="road-line"></div>
+      </div>
+
+      <div id="right-stops" class="stops-column"></div>
+      <div id="right-duties" class="duties-column"></div>
+    </div>
+
+    <div class="stand-box">
+      <strong>Buses on stand</strong>
+      <div id="bottom-stand-duties"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

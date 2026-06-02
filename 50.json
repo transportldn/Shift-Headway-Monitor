@@ -1,0 +1,44 @@
+{
+  "route": "50",
+
+  "directions": [
+    {
+      "destination": "Parchmore Road",
+      "stops": [
+        { "seq": 1, "name": "Croydon, Fairfield Halls", "type": "start" },
+        { "seq": 2, "name": "Fairfield Halls", "type": "intermediate" },
+        { "seq": 3, "name": "Whitgift Centre", "type": "intermediate" },
+        { "seq": 4, "name": "Delta Point", "type": "timing" },
+        { "seq": 5, "name": "Bedford Hall", "type": "intermediate" },
+        { "seq": 6, "name": "Hogarth Crescent", "type": "timing" },
+        { "seq": 7, "name": "Devonshire Road", "type": "intermediate" },
+        { "seq": 8, "name": "The Crescent", "type": "intermediate" },
+        { "seq": 9, "name": "Pawsons Road", "type": "intermediate" },
+        { "seq": 10, "name": "Talbot Road", "type": "intermediate" },
+        { "seq": 11, "name": "Thornton Heath Clock Tower", "type": "intermediate" },
+        { "seq": 12, "name": "Parchmore Road", "type": "terminus" },
+        { "seq": 13, "name": "Parchmore Road Stand", "type": "stand" }
+      ]
+    },
+
+    {
+      "destination": "Fairfield Halls",
+      "stops": [
+        { "seq": 1, "name": "Thornton Heath, Parchmore Road", "type": "start" },
+        { "seq": 2, "name": "Thornton Heath Clock Tower", "type": "intermediate" },
+        { "seq": 3, "name": "High Street", "type": "intermediate" },
+        { "seq": 4, "name": "Talbot Road", "type": "intermediate" },
+        { "seq": 5, "name": "Pawsons Road", "type": "intermediate" },
+        { "seq": 6, "name": "Beaconsfield Road", "type": "intermediate" },
+        { "seq": 7, "name": "Northcote Road", "type": "intermediate" },
+        { "seq": 8, "name": "Cromwell Road", "type": "intermediate" },
+        { "seq": 9, "name": "Hogarth Crescent", "type": "intermediate" },
+        { "seq": 10, "name": "St Mary's Church", "type": "intermediate" },
+        { "seq": 11, "name": "Lunar House", "type": "intermediate" },
+        { "seq": 12, "name": "Whitegift Centre", "type": "timing" },
+        { "seq": 13, "name": "Croydon, Fairfield Halls", "type": "terminus" },
+        { "seq": 14, "name": "Fairfield Halls Stand", "type": "stand" }
+      ]
+    }
+  ]
+}

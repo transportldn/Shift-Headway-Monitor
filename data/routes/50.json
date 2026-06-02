@@ -16,8 +16,8 @@
         { "seq": 9, "name": "Pawsons Road", "type": "intermediate" },
         { "seq": 10, "name": "Talbot Road", "type": "intermediate" },
         { "seq": 11, "name": "Thornton Heath Clock Tower", "type": "intermediate" },
-        { "seq": 12, "name": "Parchmore Road", "type": "terminus" },
-        { "seq": 13, "name": "Parchmore Road Stand", "type": "stand" }
+        { "seq": 12, "name": "Thornton Heath, Parchmore Road", "type": "terminus" },
+        { "seq": 13, "name": "Parchmore Road Stand", "type": "stand", "standFor": "Thornton Heath, Parchmore Road" }
       ]
     },
 
@@ -29,15 +29,15 @@
         { "seq": 3, "name": "High Street", "type": "intermediate" },
         { "seq": 4, "name": "Talbot Road", "type": "intermediate" },
         { "seq": 5, "name": "Pawsons Road", "type": "intermediate" },
-        { "seq": 6, "name": "Beaconsfield Road", "type": "intermediate" },
+        { "seq": 6, "name": "Beaconsfield Road", "type": "timing" },
         { "seq": 7, "name": "Northcote Road", "type": "intermediate" },
         { "seq": 8, "name": "Cromwell Road", "type": "intermediate" },
-        { "seq": 9, "name": "Hogarth Crescent", "type": "intermediate" },
+        { "seq": 9, "name": "Hogarth Crescent", "type": "timing" },
         { "seq": 10, "name": "St Mary's Church", "type": "intermediate" },
         { "seq": 11, "name": "Lunar House", "type": "intermediate" },
-        { "seq": 12, "name": "Whitegift Centre", "type": "timing" },
+        { "seq": 12, "name": "Whitgift Centre", "type": "intermediate" },
         { "seq": 13, "name": "Croydon, Fairfield Halls", "type": "terminus" },
-        { "seq": 14, "name": "Fairfield Halls Stand", "type": "stand" }
+        { "seq": 14, "name": "Fairfield Halls Stand", "type": "stand", "standFor": "Croydon, Fairfield Halls" }
       ]
     }
   ]

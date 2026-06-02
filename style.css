@@ -48,7 +48,7 @@ body {
 .stop-name {
   font-size: 15px;
   font-weight: normal;
-  background: none;
+  background: transparent;
   border: none;
 }
 
@@ -106,7 +106,6 @@ body {
 .stand-panel {
   margin: 10px auto;
   font-size: 15px;
-  font-weight: normal;
 }
 
 .duty {

@@ -16,7 +16,7 @@ body {
 
 .route-layout {
   display: grid;
-  grid-template-columns: 150px 210px 70px 210px 150px;
+  grid-template-columns: 150px 210px 42px 210px 150px;
   justify-content: center;
   align-items: start;
 }
@@ -58,27 +58,34 @@ body {
 
 .road {
   position: relative;
-  width: 70px;
+  width: 42px;
   min-height: 680px;
-  background: red;
+  background: transparent;
 }
 
+.road::before,
 .road::after {
   content: "";
   position: absolute;
   top: 0;
-  left: 50%;
-  width: 6px;
+  width: 14px;
   height: 100%;
-  background: white;
-  transform: translateX(-50%);
+  background: red;
+}
+
+.road::before {
+  left: 4px;
+}
+
+.road::after {
+  right: 4px;
 }
 
 .marker {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 2;
+  z-index: 3;
 }
 
 .marker.timing {
@@ -96,12 +103,12 @@ body {
 }
 
 .stop-row.left .marker {
-  right: -45px;
+  right: -43px;
 }
 
 .stop-row.right .marker {
-  left: -45px;
-}
+  left: -43px;
+} 
 
 .stand-panel {
   margin: 10px auto;

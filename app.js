@@ -23,6 +23,7 @@ document.getElementById("csvUpload").addEventListener("change", async event => {
 function parseRunningBoardCSV(csvText) {
   console.log(csvText);
 
+  // Temporary test duties
   return [
     {
       duty: "DUTY 1",
@@ -70,12 +71,9 @@ function createStopRow(stop, side) {
   name.textContent = stop.name;
 
   const marker = document.createElement("span");
-
-  if (isImportantStop(stop)) {
-    marker.className = "marker timing";
-  } else {
-    marker.className = "marker intermediate";
-  }
+  marker.className = isImportantStop(stop)
+    ? "marker timing"
+    : "marker intermediate";
 
   row.appendChild(name);
   row.appendChild(marker);
@@ -83,18 +81,25 @@ function createStopRow(stop, side) {
   return row;
 }
 
-function createDutySlot(duty) {
+function createDutySlot(dutyList) {
   const slot = document.createElement("div");
   slot.className = "duty-slot";
 
-  if (duty) {
+  dutyList.forEach(duty => {
     const dutyDiv = document.createElement("div");
     dutyDiv.className = "duty";
     dutyDiv.textContent = duty.duty;
     slot.appendChild(dutyDiv);
-  }
+  });
 
   return slot;
+}
+
+function getDutiesAtStop(direction, stop) {
+  return duties.filter(duty =>
+    duty.destination === direction.destination &&
+    duty.currentStop === stop.name
+  );
 }
 
 function renderDirection(direction, side) {
@@ -107,24 +112,16 @@ function renderDirection(direction, side) {
   direction.stops
     .filter(stop => stop.type !== "stand")
     .forEach(stop => {
-      const dutyHere = duties.find(duty =>
-        duty.destination === direction.destination &&
-        duty.currentStop === stop.name
-      );
+      const dutyList = getDutiesAtStop(direction, stop);
 
-      const stopRow = createStopRow(stop, side);
-      stopsColumn.appendChild(stopRow);
-
-      dutiesColumn.appendChild(createDutySlot(dutyHere));
+      stopsColumn.appendChild(createStopRow(stop, side));
+      dutiesColumn.appendChild(createDutySlot(dutyList));
     });
 }
 
 function setStandLabels() {
-  const topDirection = routeData.directions[0];
-  const bottomDirection = routeData.directions[1];
-
-  const topStand = topDirection.stops.find(stop => stop.type === "stand");
-  const bottomStand = bottomDirection.stops.find(stop => stop.type === "stand");
+  const topStand = routeData.directions[0].stops.find(stop => stop.type === "stand");
+  const bottomStand = routeData.directions[1].stops.find(stop => stop.type === "stand");
 
   document.getElementById("top-stand-label").textContent =
     topStand ? topStand.name : "Stand";

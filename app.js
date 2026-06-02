@@ -112,7 +112,9 @@ function renderDirection(direction, side) {
         duty.currentStop === stop.name
       );
 
-      stopsColumn.appendChild(createStopRow(stop, side));
+      const stopRow = createStopRow(stop, side);
+      stopsColumn.appendChild(stopRow);
+
       dutiesColumn.appendChild(createDutySlot(dutyHere));
     });
 }

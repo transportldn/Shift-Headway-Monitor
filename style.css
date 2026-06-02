@@ -16,7 +16,7 @@ body {
 
 .route-layout {
   display: grid;
-  grid-template-columns: 150px 210px 50px 210px 150px;
+  grid-template-columns: 150px 240px 70px 240px 150px;
   justify-content: center;
   align-items: start;
 }
@@ -37,19 +37,16 @@ body {
 
 .stop-row.left {
   justify-content: flex-end;
-  padding-right: 18px;
+  padding-right: 32px;
 }
 
 .stop-row.right {
   justify-content: flex-start;
-  padding-left: 18px;
+  padding-left: 32px;
 }
 
 .stop-name {
   font-size: 15px;
-  font-weight: normal;
-  background: transparent;
-  border: none;
 }
 
 .stop-name.important {
@@ -57,33 +54,56 @@ body {
 }
 
 .road {
-  width: 50px;
-  background: transparent;
+  width: 70px;
 }
 
+/* red route lines */
 .stop-row.left::after,
 .stop-row.right::before {
   content: "";
   position: absolute;
-  top: 0;
   width: 8px;
-  height: 48px;
   background: red;
+  z-index: 1;
+  top: 0;
+  height: 48px;
 }
 
 .stop-row.left::after {
-  right: -31px;
+  right: 0;
 }
 
 .stop-row.right::before {
-  left: -31px;
+  left: 0;
 }
 
+/* line starts/ends from circle centre */
+.stop-row.first::after,
+.stop-row.first::before {
+  top: 24px;
+  height: 24px;
+}
+
+.stop-row.last::after,
+.stop-row.last::before {
+  top: 0;
+  height: 24px;
+}
+
+/* markers */
 .marker {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 3;
+}
+
+.stop-row.left .marker {
+  right: -6px;
+}
+
+.stop-row.right .marker {
+  left: -6px;
 }
 
 .marker.timing {
@@ -98,14 +118,6 @@ body {
   width: 18px;
   height: 3px;
   background: black;
-}
-
-.stop-row.left .marker {
-  right: -37px;
-}
-
-.stop-row.right .marker {
-  left: -37px;
 }
 
 .stand-panel {

@@ -19,7 +19,6 @@ body {
   grid-template-columns: 150px 210px 70px 210px 150px;
   justify-content: center;
   align-items: start;
-  gap: 0;
 }
 
 .stops-column,
@@ -33,19 +32,24 @@ body {
   height: 48px;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .stop-row.left {
   justify-content: flex-end;
+  padding-right: 18px;
 }
 
 .stop-row.right {
   justify-content: flex-start;
+  padding-left: 18px;
 }
 
 .stop-name {
   font-size: 15px;
   font-weight: normal;
+  background: none;
+  border: none;
 }
 
 .stop-name.important {
@@ -59,22 +63,34 @@ body {
   background: red;
 }
 
+.road::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 6px;
+  height: 100%;
+  background: white;
+  transform: translateX(-50%);
+}
+
 .marker {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 2;
 }
 
 .marker.timing {
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
   background: white;
   border: 3px solid black;
   border-radius: 50%;
 }
 
 .marker.intermediate {
-  width: 20px;
+  width: 18px;
   height: 3px;
   background: black;
 }
@@ -88,9 +104,9 @@ body {
 }
 
 .stand-panel {
-  margin: 12px auto;
+  margin: 10px auto;
   font-size: 15px;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 .duty {

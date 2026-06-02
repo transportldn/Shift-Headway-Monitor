@@ -4,7 +4,6 @@ let duties = [];
 async function loadRoute() {
   const response = await fetch("data/routes/50.json");
   routeData = await response.json();
-
   renderMonitor();
 }
 
@@ -22,28 +21,83 @@ document.getElementById("csvUpload").addEventListener("change", async event => {
 });
 
 function parseRunningBoardCSV(csvText) {
-  // temporary test parser
-  // later this will parse the real running board layout
   console.log(csvText);
 
   return [
     {
-      duty: "TEST1",
+      duty: "DUTY 1",
       bus: "Bus 1",
       route: "50",
       currentStop: "Delta Point",
+      destination: "Parchmore Road"
+    },
+    {
+      duty: "DUTY 2",
+      bus: "Bus 2",
+      route: "50",
+      currentStop: "Thornton Heath Clock Tower",
+      destination: "Fairfield Halls"
+    },
+    {
+      duty: "DUTY 3",
+      bus: "Bus 3",
+      route: "50",
+      currentStop: "Parchmore Road Stand",
       destination: "Parchmore Road"
     }
   ];
 }
 
 function isImportantStop(stop) {
-  return stop.type === "start" ||
-         stop.type === "timing" ||
-         stop.type === "terminus";
+  return (
+    stop.type === "start" ||
+    stop.type === "timing" ||
+    stop.type === "terminus"
+  );
 }
 
-function renderDirection(direction, side, standBoxId) {
+function createStopRow(stop, side) {
+  const row = document.createElement("div");
+  row.className = `stop-row ${side}`;
+
+  const name = document.createElement("span");
+  name.className = "stop-name";
+
+  if (isImportantStop(stop)) {
+    name.classList.add("important");
+  }
+
+  name.textContent = stop.name;
+
+  const marker = document.createElement("span");
+
+  if (isImportantStop(stop)) {
+    marker.className = "marker timing";
+  } else {
+    marker.className = "marker intermediate";
+  }
+
+  row.appendChild(name);
+  row.appendChild(marker);
+
+  return row;
+}
+
+function createDutySlot(duty) {
+  const slot = document.createElement("div");
+  slot.className = "duty-slot";
+
+  if (duty) {
+    const dutyDiv = document.createElement("div");
+    dutyDiv.className = "duty";
+    dutyDiv.textContent = duty.duty;
+    slot.appendChild(dutyDiv);
+  }
+
+  return slot;
+}
+
+function renderDirection(direction, side) {
   const stopsColumn = document.getElementById(`${side}-stops`);
   const dutiesColumn = document.getElementById(`${side}-duties`);
 
@@ -53,38 +107,36 @@ function renderDirection(direction, side, standBoxId) {
   direction.stops
     .filter(stop => stop.type !== "stand")
     .forEach(stop => {
-      const stopDiv = document.createElement("div");
-      stopDiv.className = "stop";
-
-      if (isImportantStop(stop)) {
-        stopDiv.classList.add("important");
-      }
-
-      stopDiv.textContent = stop.name;
-      stopsColumn.appendChild(stopDiv);
-
-      const dutySlot = document.createElement("div");
-      dutySlot.className = "duty-slot";
-
       const dutyHere = duties.find(duty =>
         duty.destination === direction.destination &&
         duty.currentStop === stop.name
       );
 
-      if (dutyHere) {
-        const dutyDiv = document.createElement("div");
-        dutyDiv.className = "duty";
-        dutyDiv.textContent = duty.duty;
-        dutySlot.appendChild(dutyDiv);
-      }
-
-      dutiesColumn.appendChild(dutySlot);
+      stopsColumn.appendChild(createStopRow(stop, side));
+      dutiesColumn.appendChild(createDutySlot(dutyHere));
     });
 }
 
+function setStandLabels() {
+  const topDirection = routeData.directions[0];
+  const bottomDirection = routeData.directions[1];
+
+  const topStand = topDirection.stops.find(stop => stop.type === "stand");
+  const bottomStand = bottomDirection.stops.find(stop => stop.type === "stand");
+
+  document.getElementById("top-stand-label").textContent =
+    topStand ? `${topStand.name} - buses on stand` : "Buses on stand";
+
+  document.getElementById("bottom-stand-label").textContent =
+    bottomStand ? `${bottomStand.name} - buses on stand` : "Buses on stand";
+}
+
 function renderStands() {
-  document.getElementById("top-stand-duties").innerHTML = "";
-  document.getElementById("bottom-stand-duties").innerHTML = "";
+  const topStandDuties = document.getElementById("top-stand-duties");
+  const bottomStandDuties = document.getElementById("bottom-stand-duties");
+
+  topStandDuties.innerHTML = "";
+  bottomStandDuties.innerHTML = "";
 
   duties.forEach(duty => {
     const direction = routeData.directions.find(
@@ -93,19 +145,21 @@ function renderStands() {
 
     if (!direction) return;
 
-    const stand = direction.stops.find(s => s.type === "stand");
+    const stand = direction.stops.find(stop => stop.type === "stand");
+    if (!stand) return;
 
-    if (stand && duty.currentStop === stand.name) {
-      const div = document.createElement("div");
-      div.className = "duty";
-      div.textContent = `${duty.duty} - ${duty.bus}`;
+    if (duty.currentStop !== stand.name) return;
 
-      const boxId =
-        routeData.directions.indexOf(direction) === 0
-          ? "top-stand-duties"
-          : "bottom-stand-duties";
+    const dutyDiv = document.createElement("div");
+    dutyDiv.className = "duty";
+    dutyDiv.textContent = `${duty.duty} - ${duty.bus}`;
 
-      document.getElementById(boxId).appendChild(div);
+    const directionIndex = routeData.directions.indexOf(direction);
+
+    if (directionIndex === 0) {
+      topStandDuties.appendChild(dutyDiv);
+    } else {
+      bottomStandDuties.appendChild(dutyDiv);
     }
   });
 }
@@ -115,6 +169,8 @@ function renderMonitor() {
 
   renderDirection(routeData.directions[0], "left");
   renderDirection(routeData.directions[1], "right");
+
+  setStandLabels();
   renderStands();
 }
 

@@ -23,7 +23,6 @@ document.getElementById("csvUpload").addEventListener("change", async event => {
 function parseRunningBoardCSV(csvText) {
   console.log(csvText);
 
-  // Temporary test duties
   return [
     {
       duty: "DUTY 1",
@@ -57,9 +56,12 @@ function isImportantStop(stop) {
   );
 }
 
-function createStopRow(stop, side) {
+function createStopRow(stop, side, index, total) {
   const row = document.createElement("div");
   row.className = `stop-row ${side}`;
+
+  if (index === 0) row.classList.add("first");
+  if (index === total - 1) row.classList.add("last");
 
   const name = document.createElement("span");
   name.className = "stop-name";
@@ -102,32 +104,52 @@ function getDutiesAtStop(direction, stop) {
   );
 }
 
-function renderDirection(direction, side) {
+function renderDirection(direction, side, reverse = false) {
   const stopsColumn = document.getElementById(`${side}-stops`);
   const dutiesColumn = document.getElementById(`${side}-duties`);
 
   stopsColumn.innerHTML = "";
   dutiesColumn.innerHTML = "";
 
-  direction.stops
-    .filter(stop => stop.type !== "stand")
-    .forEach(stop => {
-      const dutyList = getDutiesAtStop(direction, stop);
+  let stops = direction.stops.filter(stop => stop.type !== "stand");
 
-      stopsColumn.appendChild(createStopRow(stop, side));
-      dutiesColumn.appendChild(createDutySlot(dutyList));
-    });
+  if (reverse) {
+    stops = [...stops].reverse();
+  }
+
+  stops.forEach((stop, index) => {
+    const dutyList = getDutiesAtStop(direction, stop);
+
+    stopsColumn.appendChild(
+      createStopRow(stop, side, index, stops.length)
+    );
+
+    dutiesColumn.appendChild(createDutySlot(dutyList));
+  });
+}
+
+function getStandByNamePart(namePart) {
+  for (const direction of routeData.directions) {
+    const stand = direction.stops.find(stop =>
+      stop.type === "stand" &&
+      stop.name.toLowerCase().includes(namePart.toLowerCase())
+    );
+
+    if (stand) return stand;
+  }
+
+  return null;
 }
 
 function setStandLabels() {
-  const topStand = routeData.directions[0].stops.find(stop => stop.type === "stand");
-  const bottomStand = routeData.directions[1].stops.find(stop => stop.type === "stand");
+  const fairfieldStand = getStandByNamePart("Fairfield");
+  const parchmoreStand = getStandByNamePart("Parchmore");
 
   document.getElementById("top-stand-label").textContent =
-    topStand ? topStand.name : "Stand";
+    fairfieldStand ? fairfieldStand.name : "Fairfield Stand";
 
   document.getElementById("bottom-stand-label").textContent =
-    bottomStand ? bottomStand.name : "Stand";
+    parchmoreStand ? parchmoreStand.name : "Parchmore Stand";
 }
 
 function renderStands() {
@@ -153,9 +175,7 @@ function renderStands() {
     dutyDiv.className = "duty";
     dutyDiv.textContent = `${duty.duty} - ${duty.bus}`;
 
-    const directionIndex = routeData.directions.indexOf(direction);
-
-    if (directionIndex === 0) {
+    if (stand.name.toLowerCase().includes("fairfield")) {
       topStandDuties.appendChild(dutyDiv);
     } else {
       bottomStandDuties.appendChild(dutyDiv);
@@ -166,8 +186,8 @@ function renderStands() {
 function renderMonitor() {
   if (!routeData) return;
 
-  renderDirection(routeData.directions[0], "left");
-  renderDirection(routeData.directions[1], "right");
+  renderDirection(routeData.directions[0], "left", false);
+  renderDirection(routeData.directions[1], "right", true);
 
   setStandLabels();
   renderStands();
